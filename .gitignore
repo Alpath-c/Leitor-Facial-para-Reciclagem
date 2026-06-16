@@ -1,0 +1,12 @@
+venv/
+env/
+
+*.db
+*.sqlite3
+
+*.whl
+
+__pycache__/
+*.pyc
+
+teste_camera.jpg
