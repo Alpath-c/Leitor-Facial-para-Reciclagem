@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Coleta Reciclável Facial</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center; 
+            background-color: #f4f4f9; 
+            padding: 20px; 
+        }
+        video { 
+            border-radius: 10px; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2); 
+            max-width: 100%; /* Ajuda a tela a não quebrar no celular */
+            height: auto;
+        }
+        .controls { 
+            margin-top: 20px; 
+        }
+        button { 
+            padding: 10px 20px; 
+            font-size: 16px; 
+            cursor: pointer; 
+            background-color: #28a745; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            margin: 5px; 
+        }
+        button:hover { background-color: #218838; }
+        .btn-reciclar { background-color: #007bff; }
+        .btn-reciclar:hover { background-color: #0069d9; }
+        input { 
+            padding: 10px; 
+            font-size: 16px; 
+            margin: 5px; 
+            border-radius: 5px; 
+            border: 1px solid #ccc; 
+            width: 80%;
+            max-width: 300px;
+        }
+        #mensagem { 
+            margin-top: 20px; 
+            font-weight: bold; 
+            font-size: 18px; 
+            color: #333; 
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Totem de Reciclagem Sustentável ♻️</h1>
+    
+    <video id="video" width="640" height="480" autoplay playsinline muted></video>
+    <canvas id="canvas" style="display:none;"></canvas>
+
+    <div class="controls">
+        <input type="text" id="nomeUser" placeholder="Seu nome (para cadastro)">
+        <br><br>
+        <button onclick="enviarFoto('cadastrar')">1. Fazer Cadastro</button>
+        <button onclick="enviarFoto('reciclar')" class="btn-reciclar">2. Entregar Reciclável</button>
+    </div>
+
+    <div id="mensagem"></div>
+
+    <script>
+        // Ativa a webcam do computador ou celular
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
+            .then(stream => { video.srcObject = stream; })
+            .catch(err => { alert("Erro ao acessar a câmera: " + err); });
+
+        // Tira a foto e envia para o backend (Python)
+        function enviarFoto(acao) {
+            // A MÁGICA: Ajusta o canvas para o tamanho exato e natural da câmera do celular (evita distorção)
+            canvas.width =
